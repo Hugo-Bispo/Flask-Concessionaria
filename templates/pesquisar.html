@@ -13,6 +13,17 @@
 				border-radius: 30px;
 				padding: 10px;
 			}
+			table{
+				border-bottom: 20px;
+			}
+			table, th, td {
+			  border: 1px solid black;
+			  border-collapse: collapse;
+			}
+			th, td {
+			  padding: 5px;
+			  text-align: left;
+			}
 		</style>
 	</head>
 	
@@ -32,42 +43,13 @@
 					<button type="submit" class="btn btn-primary mt-2 text-center">Pesquisar</button>
 				</div>
 				<br>
-				<table>
-					<tr>
-						<th>Descrição</th>
-						<th>Valor</th>
-					  </tr>
-					<tr>
-					  <td>Placa</td>
-					  <td>Modelo</td>
-					  <td>Marca</td>
-					  <td>Valor</td>
-					  <td>Direção</td>
-					  <td>Ar condicionado</td>
-					  <td>Ar quente</td>
-					  <td>Vidros Elétricos</td>
-					  <td>Travas Elétricas</td>
-					</tr>
-					<tr>
-					  <td>----</td>
-					  <td>----</td>
-					  <td>----</td>
-					</tr>
-				  </table>
-
 				  <table style="width:100%">
+					{% for chave, valor in registro.items() %}
 					<tr>
-					  <th>Placa:</th>
-					  <td> ---- </td>
+					  <th>{{chave}}:</th>
+					  <td>{{valor}}</td>
 					</tr>
-					<tr>
-					  <th>Modelo:</th>
-					  <td>555 77 854</td>
-					</tr>
-					<tr>
-					  <th>Marca:</th>
-					  <td>555 77 855</td>
-					</tr>
+					{% endfor %}
 				  </table>
 			</form>
 		</div>

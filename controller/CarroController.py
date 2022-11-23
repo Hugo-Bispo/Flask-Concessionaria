@@ -29,5 +29,49 @@ def view_to_dao(registros):
     carroDAO.insert_carro(registros)
 
 
-def dao_to_view():
-    print(carroDAO.select_carro())
+def dao_to_view(placa):
+    if "-" in placa:
+        placa = placa.replace("-", "")
+
+    result = carroDAO.select_carro(placa)
+    placa = f"{result[0][0:3]}-{result[0][3:7]}"
+    modelo = result[1]
+    marca = result[2]
+    cor = result[3]
+    valor = result[4]
+    situacao = yes_or_no(result[5])
+    ar_condicionado = yes_or_no(result[6])
+    ar_quente = yes_or_no(result[7])
+    vidros_eletricos = yes_or_no(result[9])
+    travas_eletricas = yes_or_no(result[10])
+    direcao = result[8]
+    if "m" in direcao:
+        direcao = "Mecânica"
+    elif "e" in direcao:
+        direcao = "Elétrica"
+    else:
+        direcao = "Hidráulica" 
+
+    result = {"Placa": placa,
+		"Modelo": modelo,
+		"Marca": marca,
+		"Cor": cor,
+		"Valor" : valor,
+        "Disponivel" : situacao,
+		"Ar-condicionado" : ar_condicionado,
+		"Ar-quente" : ar_quente,
+		"Direçao" : direcao,
+		"Vidros Eletricos" : vidros_eletricos,
+		"Travas Eletricas" : travas_eletricas,
+	    }
+
+    print(result)
+    return result
+
+def yes_or_no(registro):
+    if registro == 1:
+        registro = "Sim"
+    else:
+        registro = "Não"
+    return registro
+

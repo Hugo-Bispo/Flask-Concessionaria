@@ -32,11 +32,15 @@ def cadastrar():
 		CarroController.view_to_dao(registros)
 	return render_template("cadastrar.html")
 
-@app.route("/pesquisar", methods=["POST"])
+@app.route("/pesquisar", methods=["GET", "POST"])
 def pesquisar():
+	registro = {}
 	if request.method == "POST":
-		CarroController.dao_to_view()
-	return render_template("pesquisar.html")
+		
+		if request.form.get("placa"):
+			placa = request.form.get("placa")
+			registro = CarroController.dao_to_view(placa)
+	return render_template("pesquisar.html", registro = registro)
 
 @app.route("/relatorio_vendas")
 def relatorio_vendas():

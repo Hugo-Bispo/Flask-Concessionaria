@@ -32,19 +32,7 @@ def select_carro(placa):
                     AR_QUENTE, DIRECAO, VIDROS_ELETRICOS, TRAVAS_ELETRICAS FROM CARRO
                     WHERE PLACA = "{placa}"''')
     result = cursor.fetchone()
-    result ={"placa": result[0],
-			"modelo": result[1],
-			"marca": result[2],
-			"cor": result[3],
-			"valor" : result[4],
-            "situacao" : result[5],
-			"ar_condicionado" : result[6],
-			"ar_quente" : result[7],
-			"direcao" : result[8],
-			"vidros_eletricos" : result[9],
-			"travas_eletricas" : result[10],
-	        }
-    
+
 
     print(result)
     return result
