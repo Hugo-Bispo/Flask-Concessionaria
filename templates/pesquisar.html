@@ -1,0 +1,76 @@
+{% extends 'index.html' %}
+	
+<!DOCTYPE html>
+<html lang="pt-br">
+	<head>
+		<title>Cadastrar</title>
+		<meta charset="utf-8" />
+		{% block conteudo %}
+		<style>
+			#principal{
+				width: 50%;
+				background-color: #fff;
+				border-radius: 30px;
+				padding: 10px;
+			}
+		</style>
+	</head>
+	
+	<body>
+		<div style="margin-top: 75px ;"></div>
+		<div id="principal" class=" container form-row ps-5">
+			<h4 class="text-center">Pesquisar Carro</h4>
+			<form action="{{url_for('pesquisar')}}" method="POST" class="text-center">
+				
+				<div class="form-group row">
+					<label for="placa" class="col-sm-2 col-form-label">Placa</label>
+					<div class="col-sm-4">
+						<input  class="form-control" type="text" name="placa" required>
+					</div>
+				</div>
+				<div class="text-center">
+					<button type="submit" class="btn btn-primary mt-2 text-center">Pesquisar</button>
+				</div>
+				<br>
+				<table>
+					<tr>
+						<th>Descrição</th>
+						<th>Valor</th>
+					  </tr>
+					<tr>
+					  <td>Placa</td>
+					  <td>Modelo</td>
+					  <td>Marca</td>
+					  <td>Valor</td>
+					  <td>Direção</td>
+					  <td>Ar condicionado</td>
+					  <td>Ar quente</td>
+					  <td>Vidros Elétricos</td>
+					  <td>Travas Elétricas</td>
+					</tr>
+					<tr>
+					  <td>----</td>
+					  <td>----</td>
+					  <td>----</td>
+					</tr>
+				  </table>
+
+				  <table style="width:100%">
+					<tr>
+					  <th>Placa:</th>
+					  <td> ---- </td>
+					</tr>
+					<tr>
+					  <th>Modelo:</th>
+					  <td>555 77 854</td>
+					</tr>
+					<tr>
+					  <th>Marca:</th>
+					  <td>555 77 855</td>
+					</tr>
+				  </table>
+			</form>
+		</div>
+	</body>
+</html>
+{% endblock conteudo %}
