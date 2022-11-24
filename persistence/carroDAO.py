@@ -33,6 +33,10 @@ def select_carro(placa):
                     WHERE PLACA = "{placa}"''')
     result = cursor.fetchone()
 
+    if result == None:
+        result = ("000000","0","0","0",0,0,0,0,"-",0,0)
+        return result
+    else:
+        print(result)
 
-    print(result)
-    return result
+        return result

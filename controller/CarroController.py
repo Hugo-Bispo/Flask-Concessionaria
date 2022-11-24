@@ -1,4 +1,7 @@
 from persistence import carroDAO
+import locale
+
+locale.setlocale(locale.LC_MONETARY, 'pt_BR.UTF-8')
 
 def view_to_dao(registros):
     if "-" in registros["placa"]:
@@ -30,6 +33,9 @@ def view_to_dao(registros):
 
 
 def dao_to_view(placa):
+
+    
+
     if "-" in placa:
         placa = placa.replace("-", "")
 
@@ -38,7 +44,8 @@ def dao_to_view(placa):
     modelo = result[1]
     marca = result[2]
     cor = result[3]
-    valor = result[4]
+    #valor = 'R$: {}'.format(str(result[4]).replace('.',','))
+    valor = locale.currency(result[4], grouping=True)
     situacao = yes_or_no(result[5])
     ar_condicionado = yes_or_no(result[6])
     ar_quente = yes_or_no(result[7])
@@ -49,7 +56,7 @@ def dao_to_view(placa):
         direcao = "Mecânica"
     elif "e" in direcao:
         direcao = "Elétrica"
-    else:
+    elif "h" in direcao:
         direcao = "Hidráulica" 
 
     result = {"Placa": placa,
@@ -65,8 +72,12 @@ def dao_to_view(placa):
 		"Travas Eletricas" : travas_eletricas,
 	    }
 
-    print(result)
-    return result
+    if "000-000" in placa:
+        result = {"Placa":"Placa não encontrada!!!"}
+        return result
+    else:
+        print(result)
+        return result
 
 def yes_or_no(registro):
     if registro == 1:

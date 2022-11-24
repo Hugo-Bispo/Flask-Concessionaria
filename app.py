@@ -1,6 +1,6 @@
 from flask import Flask, render_template, request, url_for
 from persistence import carroDAO, database
-from controller import CarroController
+from controller import CarroController, VendasController
 
 app = Flask(__name__)
 
@@ -28,7 +28,7 @@ def cadastrar():
 				"travas_eletricas" : request.form.get("travas_eletricas"),
 				}
 				)
-		#print(registros)
+		print(registros)
 		CarroController.view_to_dao(registros)
 	return render_template("cadastrar.html")
 
@@ -51,9 +51,20 @@ def relatorio_carros():
 	return render_template("relatorio_carros.html", registros=None)
 
 
+@app.route("/vender", methods=["GET", "POST"])
+def vender():
+    if request.method == "POST":
+        if request.form.get("placa") and request.form.get("data_venda"):
+            registros = (
+                {"placa": request.form.get("placa"),
+                 "data_venda": request.form.get("data_venda")
+                 }
+            )
+
+        VendasController.view_to_dao(registros)
+    return render_template("vender.html")
 
 database.create_modelo()
 app.run(debug=True)
-
 
 #http://127.0.0.1:5000

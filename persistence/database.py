@@ -15,6 +15,7 @@ def __create_database():
     cursor.execute("CREATE DATABASE IF NOT EXISTS CONCESSIONARIA")
     cursor.execute("USE CONCESSIONARIA")
 
+
 def __create_tables():
     cursor.execute('''
         CREATE TABLE IF NOT EXISTS CARRO(
@@ -33,8 +34,23 @@ def __create_tables():
 
     cursor.execute('''
         CREATE TABLE IF NOT EXISTS VENDAS(
-            ID_VENDA INT4 PRIMARY KEY AUTO_INCREMENT,
-            PLACA CHAR(7) NOT NULL,
-            DATA_VENDA DATE NOT NULL,
-            FOREIGN KEY(PLACA) REFERENCES CARRO(PLACA)
+            PLACA CHAR(7),
+            DATA_VENDA DATE,
+            FOREIGN KEY(PLACA) REFERENCES CARRO(PLACA),
+            CONSTRAINT PK_VENDAS PRIMARY KEY (PLACA, DATA_VENDA)
         )''')
+
+
+    
+    cursor.execute('''
+        DROP PROCEDURE IF EXISTS VENDER_CARRO;
+        ''')
+
+    cursor.execute('''
+                   
+        CREATE PROCEDURE VENDER_CARRO (PLACA CHAR(7), DATA_VENDA DATE)
+        BEGIN
+        INSERT INTO VENDAS (PLACA, DATA_VENDA) VALUES (PLACA, DATA_VENDA);
+        UPDATE CARRO C SET C.SITUACAO = 0 WHERE C.PLACA = PLACA;
+        END;
+        ''')

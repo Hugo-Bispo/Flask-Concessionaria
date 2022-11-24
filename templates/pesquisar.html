@@ -13,16 +13,9 @@
 				border-radius: 30px;
 				padding: 10px;
 			}
-			table{
-				border-bottom: 20px;
-			}
-			table, th, td {
-			  border: 1px solid black;
-			  border-collapse: collapse;
-			}
-			th, td {
-			  padding: 5px;
-			  text-align: left;
+			form{
+				padding-top: 10px;
+				padding-bottom: 25px;
 			}
 		</style>
 	</head>
@@ -43,12 +36,14 @@
 					<button type="submit" class="btn btn-primary mt-2 text-center">Pesquisar</button>
 				</div>
 				<br>
-				  <table style="width:100%">
+				  <table style="width:94%;" class="table table-bordered table-hover text-start">
 					{% for chave, valor in registro.items() %}
-					<tr>
-					  <th>{{chave}}:</th>
-					  <td>{{valor}}</td>
-					</tr>
+					<tbody>
+						<tr>
+						<th scope="row">{{chave}}:</th>
+						<td>{{valor}}</td>
+						</tr>
+					</tbody>
 					{% endfor %}
 				  </table>
 			</form>

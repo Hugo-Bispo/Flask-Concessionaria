@@ -1,6 +1,15 @@
-def view_to_dao():
-    pass
+from persistence import vendasDAO
 
 
-def dao_to_view():
+def view_to_dao(registros):
+    if "-" in registros["placa"]:
+        placa = str(registros["placa"])
+        placa = placa.replace("-", "")
+        registros["placa"] = placa
+
+    print(registros)
+    vendasDAO.insert_venda(registros)
+
+
+def dao_to_view(placa):
     pass
