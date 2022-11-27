@@ -3,11 +3,41 @@ import locale
 
 locale.setlocale(locale.LC_MONETARY, 'pt_BR.UTF-8')
 
+# Implementar listas e Dicionario
+def search_carro(placa):
+    placa = str(placa)
+    placa = placa.replace("-", "").upper()
+    result = carroDAO.select_carro(placa)
+    if result == None:
+        return {"Placa": "Não Encontrada"}
+    new_result = dao_to_view(result)
+    dict_result = {"Placa": new_result[0],
+        "Modelo": new_result[1],
+        "Marca": new_result[2],
+        "Cor": new_result[3],
+        "Valor" : new_result[4],
+        "Disponivel" : new_result[5],
+        "Ar-condicionado" : new_result[6],
+        "Ar-quente" : new_result[7],
+        "Direçao" : new_result[8],
+        "Vidros Eletricos" : new_result[9],
+        "Travas Eletricas" : new_result[10],
+    }
+    return dict_result
+
+def search_all():
+    result = carroDAO.select_all()
+    new_result = []
+    for carro in result:
+        new_result.append(dao_to_view(carro))
+    print(new_result)
+    return new_result
+
 def view_to_dao(registros):
     if "-" in registros["placa"]:
         placa = str(registros["placa"])
         placa = placa.replace("-", "")
-        registros["placa"] = placa
+        registros["placa"] = placa.upper()
 
     if registros["ar_condicionado"] == "on":
         registros["ar_condicionado"] = True
@@ -32,19 +62,11 @@ def view_to_dao(registros):
     carroDAO.insert_carro(registros)
 
 
-def dao_to_view(placa):
-
-    
-
-    if "-" in placa:
-        placa = placa.replace("-", "")
-
-    result = carroDAO.select_carro(placa)
+def dao_to_view(result):    
     placa = f"{result[0][0:3]}-{result[0][3:7]}"
     modelo = result[1]
     marca = result[2]
     cor = result[3]
-    #valor = 'R$: {}'.format(str(result[4]).replace('.',','))
     valor = locale.currency(result[4], grouping=True)
     situacao = yes_or_no(result[5])
     ar_condicionado = yes_or_no(result[6])
@@ -58,26 +80,9 @@ def dao_to_view(placa):
         direcao = "Elétrica"
     elif "h" in direcao:
         direcao = "Hidráulica" 
+    new_result = [placa, modelo, marca, cor, valor, situacao, ar_condicionado, ar_quente, direcao, vidros_eletricos, travas_eletricas]
 
-    result = {"Placa": placa,
-		"Modelo": modelo,
-		"Marca": marca,
-		"Cor": cor,
-		"Valor" : valor,
-        "Disponivel" : situacao,
-		"Ar-condicionado" : ar_condicionado,
-		"Ar-quente" : ar_quente,
-		"Direçao" : direcao,
-		"Vidros Eletricos" : vidros_eletricos,
-		"Travas Eletricas" : travas_eletricas,
-	    }
-
-    if "000-000" in placa:
-        result = {"Placa":"Placa não encontrada!!!"}
-        return result
-    else:
-        print(result)
-        return result
+    return new_result
 
 def yes_or_no(registro):
     if registro == 1:

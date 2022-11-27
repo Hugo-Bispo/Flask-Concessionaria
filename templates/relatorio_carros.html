@@ -1,46 +1,55 @@
 {% extends 'index.html' %}
-    {% block conteudo %}
-<h2 style="text-align: center;">Listar Carros</h2>
-	<table>
-		<tr>
-			<th>Placa</th>
-			<th>Modelo</th>
-			<th>Marca</th>
-			<th>Valor</th>
-		</tr>
-		{% for registro in registros %}
-		<tr>
-		  <td>{{registro.placa}}</td>
-		  <td>{{registro.modelo}}</td>
-		  <td>{{registro.marca}}</td>
-		  <td>{{registro.valor}}</td>
-		</tr>
-		{% endfor %}
-	  </table>
-
-
-	  <hr>
-	{% for registro in registros %}
-	<details>
-		<summary>{{registro.placa}}</summary>
-		<p>{{registro.modelo}}</p>
-	</details>	
-	{% endfor %}
-
-	<table>
-		<tr>
-			<th>Placa</th>
-			<th>Modelo</th>
-			<th>Marca</th>
-			<th>Valor</th>
-		</tr>
-		{% for registro in registros %}
-		<tr>
-		  <td>{{registro.placa}}</td>
-		  <td>{{registro.modelo}}</td>
-		  <td>{{registro.marca}}</td>
-		  <td>{{registro.valor}}</td>
-		</tr>
-		{% endfor %}
-	  </table>
+	
+<!DOCTYPE html>
+<html lang="pt-br">
+	<head>
+		<title>Cadastrar</title>
+		<meta charset="utf-8" />
+		{% block conteudo %}
+		<style>
+			#principal{
+				width: 50%;
+				background-color: #fff;
+				border-radius: 30px;
+				padding: 10px;
+			}
+			form{
+				padding-top: 10px;
+				padding-bottom: 25px;
+			}
+		</style>
+	</head>
+	
+	<body>
+		<div style="margin-top: 75px ;"></div>
+		<div id="principal" class=" container form-row ps-5">
+			<h4 class="text-center">Relatorio de Carro</h4>
+			<form action="{{url_for('relatorio_carros')}}" method="POST" class="text-center">
+				<br>
+				  <table style="width:94%;" class="table table-bordered table-hover text-start">
+						<tr>
+							<th>Placa</th>
+							<th>Modelo</th>
+							<th>Marca</th>
+							<th>Cor</th>
+							<th>Valor</th>
+							<th>Disponivel</th>
+							<th>Ar.Cond</th>
+							<th>Ar.Quen</th>
+							<th>Direção</th>
+							<th>Vidros Eletricos</th>
+							<th>Travas Eletricas</th>
+						</tr>
+						{% for registro in registros %}
+							<tr>
+								{% for value in registro %}
+									<td>{{value}}</td>
+								{% endfor %}
+							</tr>
+						{% endfor %}
+				  </table>
+			</form>
+		</div>
+	</body>
+</html>
 {% endblock conteudo %}

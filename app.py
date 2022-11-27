@@ -1,5 +1,5 @@
 from flask import Flask, render_template, request, url_for
-from persistence import carroDAO, database
+from persistence import carroDAO, vendasDAO, database
 from controller import CarroController, VendasController
 
 app = Flask(__name__)
@@ -39,17 +39,8 @@ def pesquisar():
 		
 		if request.form.get("placa"):
 			placa = request.form.get("placa")
-			registro = CarroController.dao_to_view(placa)
+			registro = CarroController.search_carro(placa)
 	return render_template("pesquisar.html", registro = registro)
-
-@app.route("/relatorio_vendas")
-def relatorio_vendas():
-	return render_template("relatorio_vendas.html", registros=None)
-
-@app.route("/relatorio_carros")
-def relatorio_carros():
-	return render_template("relatorio_carros.html", registros=None)
-
 
 @app.route("/vender", methods=["GET", "POST"])
 def vender():
@@ -63,6 +54,16 @@ def vender():
 
         VendasController.view_to_dao(registros)
     return render_template("vender.html")
+
+@app.route("/relatorio_vendas", methods=["GET", "POST"])
+def relatorio_vendas():
+	registros = VendasController.search_all()
+	return render_template("relatorio_vendas.html", registros = registros)
+
+@app.route("/relatorio_carros", methods=["GET", "POST"])
+def relatorio_carros():
+	registros = CarroController.search_all()
+	return render_template("relatorio_carros.html", registros= registros)
 
 database.create_modelo()
 app.run(debug=True)

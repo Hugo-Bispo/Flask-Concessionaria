@@ -28,15 +28,18 @@ def insert_carro(registros):
 
 
 def select_carro(placa):
+    result = None
     cursor.execute(f'''SELECT PLACA, MODELO, MARCA, COR, VALOR, SITUACAO, AR_CONDICIONADO, 
                     AR_QUENTE, DIRECAO, VIDROS_ELETRICOS, TRAVAS_ELETRICAS FROM CARRO
                     WHERE PLACA = "{placa}"''')
     result = cursor.fetchone()
+    return result
 
-    if result == None:
-        result = ("000000","0","0","0",0,0,0,0,"-",0,0)
-        return result
-    else:
-        print(result)
 
-        return result
+def select_all():
+    result = None
+    cursor.execute(f'''SELECT PLACA, MODELO, MARCA, COR, VALOR, SITUACAO, AR_CONDICIONADO, 
+                    AR_QUENTE, DIRECAO, VIDROS_ELETRICOS, TRAVAS_ELETRICAS FROM CARRO
+                    ''')
+    result = cursor.fetchall()
+    return result

@@ -18,3 +18,12 @@ def insert_venda(registros):
         ''')
 
     mybd.commit()
+
+def select_all():
+    result = None
+    cursor.execute(f'''SELECT V.PLACA, C.MODELO, C.VALOR, V.DATA_VENDA FROM VENDAS V
+                        INNER JOIN CARRO C ON V.PLACA = C.PLACA
+                    ''')
+    result = cursor.fetchall()
+    print(result)
+    return result
