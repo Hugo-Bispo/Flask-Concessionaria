@@ -84,6 +84,57 @@ def dao_to_view(result):
 
     return new_result
 
+def update(registros):
+    
+    if "-" in registros["placa"]:
+        placa = str(registros["placa"])
+        placa = placa.replace("-", "")
+        registros["placa"] = placa.upper()
+
+    if "R$" in registros["valor"]:
+        valor = str(registros["valor"])
+        valor = valor.replace("R$ ","")
+        valor = valor.replace(".","")
+        valor = valor[:-3]
+        registros["valor"] = valor
+
+    if registros["direcao"] == "Elétrica":
+        registros["direcao"] = "e"
+    elif registros["direcao"] == "Mecânica":
+        registros["direcao"] = "m"
+    else:
+        registros["direcao"] = "h"
+
+    if registros["ar_condicionado"] == "Sim":
+        registros["ar_condicionado"] = 1
+    else:
+       registros["ar_condicionado"] = 0
+
+    if registros["ar_quente"] == "Sim":
+        registros["ar_quente"] = 1
+    else:
+       registros["ar_quente"] = 0
+
+    if registros["vidros_eletricos"] == "Sim":
+        registros["vidros_eletricos"] = 1
+    else:
+       registros["vidros_eletricos"] = 0
+
+    if registros["travas_eletricas"] == "Sim":
+        registros["travas_eletricas"] = 1
+    else:
+       registros["travas_eletricas"] = 0
+    print(registros)
+    carroDAO.update_carro(registros)
+
+def delete(registros):
+    if "-" in registros["placa"]:
+        placa = str(registros["placa"])
+        placa = placa.replace("-", "")
+        registros["placa"] = placa.upper()
+
+    carroDAO.delete_carro(registros)
+
 def yes_or_no(registro):
     if registro == 1:
         registro = "Sim"

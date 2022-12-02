@@ -1,0 +1,72 @@
+{% extends 'index.html' %}
+	
+<!DOCTYPE html>
+<html lang="pt-br">
+	<head>
+		<title>Cadastrar</title>
+		<meta charset="utf-8" />
+		{% block conteudo %}
+		<style>
+			#principal{
+				width: 50%;
+				background-color: #fff;
+				border-radius: 30px;
+				padding: 10px;
+			}
+			form{
+				padding-top: 10px;
+				padding-bottom: 25px;
+			}
+		</style>
+	</head>
+	
+	<body>
+		<div style="margin-top: 75px ;"></div>
+		<div id="principal" class=" container form-row ps-5">
+			<h4 class="text-center">Pesquisar Carro a ser editado</h4>
+			<form action="{{url_for('editar')}}" method="POST" class="text-center">
+				
+				<div class="form-group row">
+					<label class="col-sm-4 col-form-label">Placa</label>
+					<div class="col-sm-4">
+						<input  class="form-control" type="text" name="placa">
+					</div>
+				</div>
+
+				<div class="text-center">
+					<button type="submit" name="search" class="btn btn-primary mt-2 text-center">Pesquisar</button>
+				</div>
+
+                <hr>
+
+                <form action="{{url_for('editar')}}" method="POST">
+                    {% for chave, valor in registro.items() %}
+                        {% if chave == "Placa"  or chave == "Disponivel"%}
+						<div class="form-group row">
+                            <label class="col-sm-3 col-form-label text-start">{{chave}}</label>
+                            <div class="col-sm-4">
+                                <input  class="form-control text-danger fw-bold" type="text" name="{{chave}}" value="{{valor}}" readonly>
+                            </div>
+                        </div>
+						{% else %}
+						<div class="form-group row">
+                            <label class="col-sm-3 col-form-label text-start">{{chave}}</label>
+                            <div class="col-sm-4">
+                                <input  class="form-control" type="text" name="{{chave}}" value="{{valor}}">
+                            </div>
+                        </div>
+						{% endif %}
+					{% endfor %}
+
+                    <div class="text-center">
+                        <button type="submit" name="update" class="btn btn-success mt-2 text-center">Editar</button>
+                        <button type="submit" name="delete" class="btn btn-danger mt-2 text-center">Excluir</button>
+                    </div>
+
+                </form>
+
+			</form>
+		</div>
+	</body>
+</html>
+{% endblock conteudo %}

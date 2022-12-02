@@ -26,6 +26,44 @@ def insert_carro(registros):
         )''')
     mybd.commit()
 
+def update_carro(registros):
+    placa = registros["placa"]
+    modelo = registros["modelo"]
+    marca = registros["marca"]
+    valor = registros["valor"]
+    cor = registros["cor"]
+    ar_condicionado = registros["ar_condicionado"]
+    ar_quente = registros["ar_quente"]
+    vidros_eletricos = registros["vidros_eletricos"]
+    travas_eletricas = registros["travas_eletricas"]
+    direcao = registros["direcao"]
+
+    cursor.execute(f'''
+        UPDATE CARRO SET
+            MODELO = "{modelo}",
+            MARCA = "{marca}",
+            VALOR = "{valor}",
+            COR = "{cor}",
+            AR_CONDICIONADO = "{ar_condicionado}",
+            AR_QUENTE = "{ar_quente}",
+            VIDROS_ELETRICOS = "{vidros_eletricos}",
+            TRAVAS_ELETRICAS = "{travas_eletricas}",
+            DIRECAO = "{direcao}"
+        WHERE PLACA = "{placa}"
+    ''')
+    mybd.commit()
+
+def delete_carro(registros):
+    placa = registros["placa"]
+
+    cursor.execute(f'''
+        DELETE FROM VENDAS WHERE PLACA = "{placa}"
+    ''')
+
+    cursor.execute(f'''
+        DELETE FROM CARRO WHERE PLACA = "{placa}"
+    ''')
+    mybd.commit()
 
 def select_carro(placa):
     result = None

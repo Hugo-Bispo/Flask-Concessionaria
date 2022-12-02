@@ -1,0 +1,46 @@
+{% extends 'index.html' %}
+    {% block conteudo %}
+<h2 style="text-align: center;">Listar Carros</h2>
+	<table>
+		<tr>
+			<th>Placa</th>
+			<th>Modelo</th>
+			<th>Marca</th>
+			<th>Valor</th>
+		</tr>
+		{% for registro in registros %}
+		<tr>
+		  <td>{{registro.placa}}</td>
+		  <td>{{registro.modelo}}</td>
+		  <td>{{registro.marca}}</td>
+		  <td>{{registro.valor}}</td>
+		</tr>
+		{% endfor %}
+	  </table>
+
+
+	  <hr>
+	{% for registro in registros %}
+	<details>
+		<summary>{{registro.placa}}</summary>
+		<p>{{registro.modelo}}</p>
+	</details>	
+	{% endfor %}
+
+	<table>
+		<tr>
+			<th>Placa</th>
+			<th>Modelo</th>
+			<th>Marca</th>
+			<th>Valor</th>
+		</tr>
+		{% for registro in registros %}
+		<tr>
+		  <td>{{registro.placa}}</td>
+		  <td>{{registro.modelo}}</td>
+		  <td>{{registro.marca}}</td>
+		  <td>{{registro.valor}}</td>
+		</tr>
+		{% endfor %}
+	  </table>
+{% endblock conteudo %}

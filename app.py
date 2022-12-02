@@ -12,7 +12,6 @@ def principal():
 
 @app.route('/cadastrar', methods=["GET", "POST"])
 def cadastrar():
-	#notas = {"Fulano":5.0, "Beltrano":6.0, "Aluno": 7.0, "Sicrano":8.5, "Rodrigo":9.5}
 	if request.method == "POST":
 		if request.form.get("placa") and request.form.get("modelo") and request.form.get("marca") and request.form.get("valor") and request.form.get("cor"):
 			registros = (
@@ -31,6 +30,42 @@ def cadastrar():
 		print(registros)
 		CarroController.view_to_dao(registros)
 	return render_template("cadastrar.html")
+
+@app.route("/editar", methods=["GET", "POST"])
+def editar():
+	registro = {}
+	if request.method == "POST":
+		button_delete = request.form.get("delete")
+		button_update = request.form.get("update")
+		button_search = request.form.get("search")
+
+		if button_delete != None:
+			registros = ({"placa": request.form.get("Placa")})
+			print(registros)
+			CarroController.delete(registros)
+		if button_update != None:
+			registros = ({"placa": request.form.get("Placa"),
+				"modelo": request.form.get("Modelo"),
+				"marca": request.form.get("Marca"),
+				"valor": request.form.get("Valor"),
+				"cor" : request.form.get("Cor"),
+				"ar_condicionado" : request.form.get("Ar-condicionado"),
+				"ar_quente" : request.form.get("Ar-quente"),
+				"direcao" : request.form.get("Direçao"),
+				"vidros_eletricos" : request.form.get("Vidros Eletricos"),
+				"travas_eletricas" : request.form.get("Travas Eletricas")
+				})
+				
+			#print(registros)
+			CarroController.update(registros)
+
+		if button_search != None:
+			print("search")
+			if request.form.get("placa"):
+				placa = request.form.get("placa")
+				registro = CarroController.search_carro(placa)
+
+	return render_template("editar.html", registro = registro)
 
 @app.route("/pesquisar", methods=["GET", "POST"])
 def pesquisar():
@@ -51,7 +86,6 @@ def vender():
                  "data_venda": request.form.get("data_venda")
                  }
             )
-
         VendasController.view_to_dao(registros)
     return render_template("vender.html")
 
