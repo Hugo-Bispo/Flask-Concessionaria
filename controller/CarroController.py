@@ -16,12 +16,13 @@ def search_carro(placa):
         "Marca": new_result[2],
         "Cor": new_result[3],
         "Valor" : new_result[4],
+        "Ano" :new_result[6],
         "Disponivel" : new_result[5],
-        "Ar-condicionado" : new_result[6],
-        "Ar-quente" : new_result[7],
-        "Direçao" : new_result[8],
-        "Vidros Eletricos" : new_result[9],
-        "Travas Eletricas" : new_result[10],
+        "Ar-condicionado" : new_result[7],
+        "Ar-quente" : new_result[8],
+        "Direçao" : new_result[9],
+        "Vidros Eletricos" : new_result[10],
+        "Travas Eletricas" : new_result[11],
     }
     return dict_result
 
@@ -38,49 +39,37 @@ def view_to_dao(registros):
         placa = str(registros["placa"])
         placa = placa.replace("-", "")
         registros["placa"] = placa.upper()
+    
+    registros["ar_condicionado"] = one_or_zero(registros["ar_condicionado"])
+    registros["ar_quente"] = one_or_zero(registros["ar_quente"])
+    registros["vidros_eletricos"] = one_or_zero(registros["vidros_eletricos"])
+    registros["travas_eletricas"] = one_or_zero(registros["travas_eletricas"])
 
-    if registros["ar_condicionado"] == "on":
-        registros["ar_condicionado"] = True
-    else:
-       registros["ar_condicionado"] = False
-
-    if registros["ar_quente"] == "on":
-        registros["ar_quente"] = True
-    else:
-       registros["ar_quente"] = False
-
-    if registros["vidros_eletricos"] == "on":
-        registros["vidros_eletricos"] = True
-    else:
-       registros["vidros_eletricos"] = False
-
-    if registros["travas_eletricas"] == "on":
-        registros["travas_eletricas"] = True
-    else:
-       registros["travas_eletricas"] = False
     print(registros)
     carroDAO.insert_carro(registros)
 
 
-def dao_to_view(result):    
+def dao_to_view(result):
+    print("result" + str(result))
     placa = f"{result[0][0:3]}-{result[0][3:7]}"
     modelo = result[1]
     marca = result[2]
     cor = result[3]
     valor = locale.currency(result[4], grouping=True)
-    situacao = yes_or_no(result[5])
-    ar_condicionado = yes_or_no(result[6])
-    ar_quente = yes_or_no(result[7])
-    vidros_eletricos = yes_or_no(result[9])
-    travas_eletricas = yes_or_no(result[10])
-    direcao = result[8]
+    ano = str(result[5])
+    situacao = yes_or_no(result[6])
+    ar_condicionado = yes_or_no(result[7])
+    ar_quente = yes_or_no(result[8])
+    vidros_eletricos = yes_or_no(result[10])
+    travas_eletricas = yes_or_no(result[11])
+    direcao = result[9]
     if "m" in direcao:
         direcao = "Mecânica"
     elif "e" in direcao:
         direcao = "Elétrica"
     elif "h" in direcao:
         direcao = "Hidráulica" 
-    new_result = [placa, modelo, marca, cor, valor, situacao, ar_condicionado, ar_quente, direcao, vidros_eletricos, travas_eletricas]
+    new_result = [placa, modelo, marca, cor, valor, situacao, ano, ar_condicionado, ar_quente, direcao, vidros_eletricos, travas_eletricas]
 
     return new_result
 
@@ -134,6 +123,13 @@ def delete(registros):
         registros["placa"] = placa.upper()
 
     carroDAO.delete_carro(registros)
+
+def one_or_zero(registro):
+    if registro == "on":
+        registro = 1
+    else:
+        registro = 0
+    return registro
 
 def yes_or_no(registro):
     if registro == 1:

@@ -25,6 +25,7 @@ def __create_tables():
             COR VARCHAR(30) NOT NULL,
             VALOR DECIMAL(10,2) NOT NULL,
             SITUACAO BOOLEAN DEFAULT 1,
+            ANO CHAR(4) NOT NULL,
             AR_CONDICIONADO BOOLEAN,
             AR_QUENTE BOOLEAN,
             DIRECAO CHAR(1) NOT NULL,
@@ -50,7 +51,20 @@ def __create_tables():
                    
         CREATE PROCEDURE VENDER_CARRO (PLACA CHAR(7), DATA_VENDA DATE)
         BEGIN
-        INSERT INTO VENDAS (PLACA, DATA_VENDA) VALUES (PLACA, DATA_VENDA);
-        UPDATE CARRO C SET C.SITUACAO = 0 WHERE C.PLACA = PLACA;
+            INSERT INTO VENDAS (PLACA, DATA_VENDA) VALUES (PLACA, DATA_VENDA);
+            UPDATE CARRO C SET C.SITUACAO = 0 WHERE C.PLACA = PLACA;
+        END;
+        ''')
+
+    cursor.execute('''
+        DROP PROCEDURE IF EXISTS EXCLUIR_CARRO;
+        ''')
+
+    cursor.execute('''
+                   
+        CREATE PROCEDURE EXCLUIR_CARRO (PLACA CHAR(7))
+        BEGIN
+        DELETE FROM VENDAS V WHERE V.PLACA = PLACA;
+        DELETE FROM CARRO C WHERE C.PLACA = PLACA;
         END;
         ''')

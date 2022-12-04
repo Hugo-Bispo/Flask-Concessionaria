@@ -1,49 +1,46 @@
 import mysql.connector
-
-mybd = mysql.connector.connect(
-    host="127.0.0.1",
-    user="root",
-    passwd = "12345678",
-    database = "CONCESSIONARIA"
-)
-cursor = mybd.cursor()
+from controller.database_connection import mysql_execute_command, mysql_execute_select, mysql_execute_select_all
 
 def insert_carro(registros):
+    print(registros)
     placa = registros["placa"]
     modelo = registros["modelo"]
     marca = registros["marca"]
     valor = registros["valor"]
     cor = registros["cor"]
+    ano = registros["ano"]
     ar_condicionado = registros["ar_condicionado"]
     ar_quente = registros["ar_quente"]
     vidros_eletricos = registros["vidros_eletricos"]
     travas_eletricas = registros["travas_eletricas"]
     direcao = registros["direcao"]
-
-    cursor.execute(f'''
-        INSERT INTO CARRO (PLACA, MODELO, MARCA, VALOR, COR, AR_CONDICIONADO, AR_QUENTE, VIDROS_ELETRICOS, TRAVAS_ELETRICAS, DIRECAO) VALUES (
-            "{placa}", "{modelo}", "{marca}", "{valor}", "{cor}", {ar_condicionado}, {ar_quente}, {vidros_eletricos}, {travas_eletricas}, "{direcao}"
-        )''')
-    mybd.commit()
+    command = f'''INSERT INTO CARRO (PLACA, MODELO, MARCA, VALOR, COR, ANO, AR_CONDICIONADO, AR_QUENTE, VIDROS_ELETRICOS, TRAVAS_ELETRICAS, DIRECAO) VALUES (
+            "{placa}", "{modelo}", "{marca}", "{valor}", "{cor}", "{ano}", "{ar_condicionado}", "{ar_quente}", "{vidros_eletricos}", "{travas_eletricas}", "{direcao}")'''
+    print(command)
+    mysql_execute_command(command)
+        
 
 def update_carro(registros):
+
     placa = registros["placa"]
     modelo = registros["modelo"]
     marca = registros["marca"]
     valor = registros["valor"]
     cor = registros["cor"]
+    ano = registros["ano"]
     ar_condicionado = registros["ar_condicionado"]
     ar_quente = registros["ar_quente"]
     vidros_eletricos = registros["vidros_eletricos"]
     travas_eletricas = registros["travas_eletricas"]
     direcao = registros["direcao"]
 
-    cursor.execute(f'''
+    command = (f'''
         UPDATE CARRO SET
             MODELO = "{modelo}",
             MARCA = "{marca}",
             VALOR = "{valor}",
             COR = "{cor}",
+            ANO = "{ano}",
             AR_CONDICIONADO = "{ar_condicionado}",
             AR_QUENTE = "{ar_quente}",
             VIDROS_ELETRICOS = "{vidros_eletricos}",
@@ -51,33 +48,29 @@ def update_carro(registros):
             DIRECAO = "{direcao}"
         WHERE PLACA = "{placa}"
     ''')
-    mybd.commit()
+    mysql_execute_command(command)
 
 def delete_carro(registros):
     placa = registros["placa"]
 
-    cursor.execute(f'''
-        DELETE FROM VENDAS WHERE PLACA = "{placa}"
-    ''')
+    command = f"CALL EXCLUIR_CARRO('{placa}')"
+    mysql_execute_command(command)
 
-    cursor.execute(f'''
-        DELETE FROM CARRO WHERE PLACA = "{placa}"
-    ''')
-    mybd.commit()
 
 def select_carro(placa):
     result = None
-    cursor.execute(f'''SELECT PLACA, MODELO, MARCA, COR, VALOR, SITUACAO, AR_CONDICIONADO, 
+    command = (f'''SELECT PLACA, MODELO, MARCA, COR, VALOR, ANO, SITUACAO, AR_CONDICIONADO, 
                     AR_QUENTE, DIRECAO, VIDROS_ELETRICOS, TRAVAS_ELETRICAS FROM CARRO
                     WHERE PLACA = "{placa}"''')
-    result = cursor.fetchone()
+    result = mysql_execute_select(command)
     return result
 
 
 def select_all():
+
     result = None
-    cursor.execute(f'''SELECT PLACA, MODELO, MARCA, COR, VALOR, SITUACAO, AR_CONDICIONADO, 
+    command = (f'''SELECT PLACA, MODELO, MARCA, COR, VALOR, ANO, SITUACAO, AR_CONDICIONADO, 
                     AR_QUENTE, DIRECAO, VIDROS_ELETRICOS, TRAVAS_ELETRICAS FROM CARRO
                     ''')
-    result = cursor.fetchall()
+    result = mysql_execute_select_all(command)
     return result
